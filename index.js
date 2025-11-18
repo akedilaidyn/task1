@@ -16,9 +16,11 @@ const nameError = document.querySelector(".name-error");
 const emailError = document.querySelector(".email-error");
 const checkedError = document.querySelector(".checked-error");
 const navLinks = document.querySelectorAll(".nav-item a");
+const sidebarLinks = document.querySelectorAll(".sidebar-nav-link");
 const clientsLink = document.querySelector("#nav-clients");
 const productsLink = document.querySelector("#nav-products");
 const feedbackLink = document.querySelector("#nav-feedback");
+const currentYearEl = document.querySelector("#current-year");
 
 let isMenuOpen = false;
 
@@ -29,8 +31,28 @@ function setActiveLink(activeLink) {
   activeLink.classList.add("nav-item-active");
 }
 
+function setActiveSidebar(section) {
+  sidebarLinks.forEach((link) => {
+    link.classList.toggle("active", link.dataset.section === section);
+  });
+}
+
+const sectionLinkMap = {
+  clients: clientsLink,
+  products: productsLink,
+  feedback: feedbackLink,
+};
+
+function activateSection(section) {
+  const activeLink = sectionLinkMap[section];
+  if (activeLink) {
+    setActiveLink(activeLink);
+  }
+  setActiveSidebar(section);
+}
+
 function showClients() {
-  setActiveLink(clientsLink);
+  activateSection("clients");
   clientsList.innerHTML = "<h2>Loading...</h2>";
 
   fetch(CLIENTS_ENDPOINT)
@@ -51,7 +73,7 @@ function showClients() {
 }
 
 function showProducts() {
-  setActiveLink(productsLink);
+  activateSection("products");
   clientsList.innerHTML = "<h2>Loading...</h2>";
 
   fetch(PRODUCTS_ENDPOINT)
@@ -71,7 +93,7 @@ function showProducts() {
 }
 
 function showFeedback() {
-  setActiveLink(feedbackLink);
+  activateSection("feedback");
   clientsList.innerHTML = "<h2>Loading...</h2>";
 
   fetch(FEEDBACK_ENDPOINT)
@@ -114,6 +136,18 @@ feedbackLink.addEventListener("click", (e) => {
   showFeedback();
 });
 
+sidebarLinks.forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    const section = link.dataset.section;
+    if (section === "clients") showClients();
+    if (section === "products") showProducts();
+    if (section === "feedback") showFeedback();
+    sidebar.classList.remove("show");
+    burgerMenuBtn.classList.remove("hidden");
+  });
+});
+
 updatesForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -138,3 +172,11 @@ updatesForm.addEventListener("submit", (e) => {
 });
 
 showClients();
+
+function updateFooterYear() {
+  if (currentYearEl) {
+    currentYearEl.textContent = new Date().getFullYear();
+  }
+}
+
+updateFooterYear();
