@@ -1,40 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
-
-:root {
-  --color-red: #fb6470;
-  --color-dark: #353541;
-  --color-white: #fff;
-  --color-blue: #0093b5;
-
-  --font-size-text: 16px;
-  --font-size-title: 24px;
-  --font-size-heading: 32px;
-  --font-size-main-heading: 48px;
-}
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Raleway", sans-serif;
-  font-size: var(--font-size-text);
-}
-
-input {
-  border: none;
-}
-
-li {
-  list-style: none;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
+@import "globals.css";
+@import "normalize.css";
 
 .page-content {
   display: flex;
@@ -42,7 +7,6 @@ a {
 }
 
 .sidebar {
-  display: none;
   width: 16rem;
   background-color: var(--color-dark);
   position: fixed;
@@ -215,27 +179,18 @@ header {
 .submit-btn {
   background-color: var(--color-red);
   color: var(--color-white);
-  border: none;
   padding: 0.5rem 1rem;
   max-width: 8rem;
 }
 
-.hidden {
-  display: none;
-}
-
-.show {
-  display: block;
-}
-
-@media (width < 64rem) {
+@media (width <= 1024px) {
   .clients-list {
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
   }
 }
 
-@media (width < 40rem) {
+@media (width <= 768px) {
   .clients-list {
     grid-template-columns: 1fr;
     gap: 0.25rem;
